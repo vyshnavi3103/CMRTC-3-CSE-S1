@@ -1,43 +1,55 @@
- Scenario: Fitness App – Calorie Burn Tracker
+public class WorkoutTracker {
 
-You are building a Fitness Tracking Application to help users monitor their calorie burn during workouts.
+    static final double MET_RUNNING = 9.8;
+    static final double MET_CYCLING = 7.5;
+    static final double MET_SWIMMING = 8.3;
 
-Each user:
+    String userName;
+    int age;
+    double weight; 
+    String workoutType;
+    int duration; 
 
- Has a name, age, and weight (kg).
- Performs one of the following workouts:
+    WorkoutTracker(String userName, int age, double weight, String workoutType, int duration) {
+        this.userName = userName;
+        this.age = age;
+        this.weight = weight;
+        this.workoutType = workoutType;
+        this.duration = duration;
+    }
 
-   Running
-   Cycling
-   Swimming
+    double getMETValue() {
+        switch (workoutType.toLowerCase()) {
+            case "running":
+                return MET_RUNNING;
+            case "cycling":
+                return MET_CYCLING;
+            case "swimming":
+                return MET_SWIMMING;
+            default:
+                return 0; 
+        }
+    }
 
-Each workout type has a fixed MET (Metabolic Equivalent Task) value:
-
- Running → 9.8
- Cycling → 7.5
- Swimming → 8.3
-
-Calories burned per minute is calculated by the formula:
-
-Calories/min = 0.0175 * MET * weight
-
-To get total calories burned:
-
-Total Calories=Calories/min×Duration (in minutes)
+    double calculateCaloriesBurned() {
+        double metValue = getMETValue();
+        double caloriesPerMinute = 0.0175 * metValue * weight;
+        return caloriesPerMinute * duration;
+    }
 
 
-Your Task:
+    void displaySummary() {"
+        System.out.println("Workout: " + workoutType);
+        System.out.println("Weight: " + weight + " kg");
+        System.out.println("Duration: " + duration + " minutes");
+        System.out.printf("Calories Burned: %.1f\n\n", calculateCaloriesBurned());
+    }
 
-1. Create a class `WorkoutTracker` with appropriate variables.
-2. You must decide:
+    public static void main(String[] args) {
+        WorkoutTracker user1 = new WorkoutTracker("Neha", 28, 60.0, "Running", 30);
+        WorkoutTracker user2 = new WorkoutTracker("Raj", 35, 70.5, "Swimming", 45);
 
-    Which variables should be static, instance, or local.
-    How many methods to use to break logic cleanly (e.g., for MET value lookup, calculation, and displaying summary).
-3. Allow tracking for multiple users with different workouts and durations.
-4. Display the workout summary in the following format:
-
-User: Neha
-Workout: Running
-Weight: 60.0 kg
-Duration: 30 minutes
-Calories Burned: 308.7
+        user1.displaySummary();
+        user2.displaySummary();
+    }
+}
